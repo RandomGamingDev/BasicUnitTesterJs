@@ -93,7 +93,7 @@ console.log("RESULTS: ");
 
 // This logs any failed tests
 console.log("Failed Tests: ");
-console.log(test.failed_tests);
+console.log(test.failed_sub_tests);
 
 // This logs everything in the test, not just errors!
 console.log("All Test Results: ");
@@ -121,7 +121,7 @@ console.log(JSON.stringify(test));
 - #### subtesters: UnitTester[] = The subtests of the test
 - #### succeeded: bool = Whether or not the test's succeeded (this will be null if the test hasn't been executed/tested yet)
 - #### error: Error = If there's an error this will contain it, otherwise this will be null
-- #### failed_tests: UnitTester[] = Contains a lists of all child unit tests to this unit test that have failed
+- #### failed_sub_tests: UnitTester[] = Contains a lists of all child unit tests to this unit test that have failed
 
 ## Non-Static Methods
 - #### test(print: bool = true, depth: Integer = 0): This is the function that needs to be called to start the test and will test the `test_func` of the `UnitTester` as well as all of its children `UnitTester`s. It will output the results of the test in console by default, which can be turned off by setting the `print` parameter to `false`.

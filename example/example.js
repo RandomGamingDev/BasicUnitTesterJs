@@ -28,9 +28,9 @@ const test = new UnitTester("Root Test", "The test that starts it all! (it also 
 // Here are the results output after the testing has finished!
 console.log("RESULTS: ");
 
-// This logs any failed tests
+// This logs any failed tests belonging to the root test (if the root test fails you'll want to check the root test's state)
 console.log("Failed Tests: ");
-console.log(test.failed_tests);
+console.log(test.failed_sub_tests);
 
 // This logs everything in the test, not just errors!
 console.log("All Test Results: ");

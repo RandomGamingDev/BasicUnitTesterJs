@@ -7,7 +7,7 @@ class UnitTester {
 
     this.succeeded = null;
     this.error = null;
-    this.failed_tests = [];
+    this.failed_sub_tests = [];
   }
 
   test(print = true, depth = 0) {
@@ -41,9 +41,9 @@ class UnitTester {
     if (this.subtesters !== null)
       this.subtesters.forEach((subtester) => {
         const child_test = subtester.test(print, depth + 1);
-	this.failed_tests = this.failed_tests.concat(child_test.failed_tests);
+	this.failed_sub_tests = this.failed_sub_tests.concat(child_test.failed_sub_tests);
 	if (child_test.succeeded === false)
-	  this.failed_tests.push(child_test);
+	  this.failed_sub_tests.push(child_test);
       });
 
     return this;
