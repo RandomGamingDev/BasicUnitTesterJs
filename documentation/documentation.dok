@@ -1,0 +1,145 @@
+~
+  "title": "BasicUnitTesterJs",
+  "description": "A basic javascript unit tester that's designed to be small and streamlined",
+  "libraries": ["https://cdn.jsdelivr.net/gh/RandomGamingDev/BasicUnitTesterJs/unit-tester.js", "https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.5/ace.js", "https://cdn.jsdelivr.net/gh/RandomGamingDev/BasicUnitTesterJs/documentation/logger-lib.js"],
+  "scripts": ["https://cdn.jsdelivr.net/gh/RandomGamingDev/BasicUnitTesterJs/documentation/editor.js"]
+~
+
+@ What's BasicUnitTesterJs?
+# What's BasicUnitTesterJs?
+### BasicUnitTesterJs is a basic javascript unit tester designed to work on all JS platforms and be small and streamlined for the best developer experience.
+A nice thing about this test being able to run everywhere, is that
+tests aren't just limited to your specific platform since the tests can be easily ported from say NodeJS to Browser JS or Bun!
+
+### To use it, you can simply import it as a cdn from https://cdn.jsdelivr.net/gh/RandomGamingDev/BasicUnitTesterJs/unit-tester.js (add .min before .js for the minified version), import into your project, or copy and paste `unit-tester.js` into your editor!
+
+@ Quickstart
+# Quickstart
+
+In order to start testing, you'll want to know how to use the library first! <br/>
+In order to create a unit test you'll have to instantiate the root `UnitTester` object (this just means the `UnitTester` that contains all others)
+The `UnitTester`'s parameters are (name, description, test_func, subtesters) with the subtesters parameter being optional
+```
+new UnitTester("Root Test", "The test that starts it all!",
+  () => {
+    // Your test goes in here
+  }
+);
+```
+
+<br/>
+
+Inside of the unit tester you can start testing things (a list of all available tests is available in the documentation for class `UnitTester`)
+```
+new UnitTester("Root Test", "The test that starts it all!",
+  () => {
+    // True is indeed true so this will succeed!
+    UnitTester.assert(true);
+    // False isn't true so this won't succeed
+    UnitTester.assert(false);
+  }
+);
+```
+
+<br/>
+
+`UnitTester` includes the ability to have subtests so that you can have parent tests that test major features that the children tests rely on which you can do like this:
+```
+new UnitTester("Root Test", "The test that starts it all!",
+  () => {
+    // True is indeed true so this will succeed!
+    UnitTester.assert(true);
+    // False isn't true so this won't succeed
+    UnitTester.assert(false);
+  },
+  [
+    new UnitTester("Child Test", "A child of the root test",
+      () => {
+        // You can execute things that rely on the parent test (in this case Root Test) here!
+      }
+    )
+  ]
+);
+```
+
+<br/>
+
+In order to call the unit test just add `.test()` to the end of the root `UnitTester` (we'll be saving it to the `test` variable in order to get the results of the test)!
+
+```
+const test = new UnitTester("Root Test", "The test that starts it all!",
+  () => {
+    // True is indeed true so this will succeed!
+    UnitTester.assert(true);
+    // False isn't true so this won't succeed
+    UnitTester.assert(false);
+  },
+  [
+    new UnitTester("Child Test", "A child of the root test",
+      () => {
+        // You can execute things that rely on the parent test (in this case Root Test) here!
+      }
+    )
+  ]
+).test(); // Use `.test(false)` if you don't want output in the console
+```
+
+<br/>
+
+And finally, you can get the results of the test from the `test` variable which you can do like this
+```
+// Here are the results output after the testing has finished!
+console.log("RESULTS: ");
+
+// This logs any failed tests
+console.log("Failed Tests: ");
+console.log(test.failed_tests);
+
+// This logs everything in the test, not just errors!
+console.log("All Test Results: ");
+// The test results are all stored in the root test (the UnitTester containing every other UnitTester) which means that you can easily print them out
+console.log(test);
+// And also store them as a JSON!
+console.log(JSON.stringify(test));
+```
+
+### If you'd like to try out using this library before importing it, you can edit the unit test for this in the Unit Test section
+
+@ class UnitTester
+# class UnitTester
+
+## Constructor: this instantiates the corresponding fields
+- name: String,
+- description: String,
+- test_func: Function,
+- subtesters: UnitTester[]
+
+## Fields
+- #### name: String = The name of the test
+- #### description: String = The description of the test
+- #### test_func: Function = The function the test is testing
+- #### subtesters: UnitTester[] = The subtests of the test
+- #### succeeded: bool = Whether or not the test's succeeded (this will be null if the test hasn't been executed/tested yet)
+- #### error: Error = If there's an error this will contain it, otherwise this will be null
+- #### failed_tests: UnitTester[] = Contains a lists of all child unit tests to this unit test that have failed
+
+## Non-Static Methods
+- #### test(print: bool = true, depth: Integer = 0): This is the function that needs to be called to start the test and will test the `test_func` of the `UnitTester` as well as all of its children `UnitTester`s. It will output the results of the test in console by default, which can be turned off by setting the `print` parameter to `false`.
+
+## Static Methods
+- #### assert(bool: bool, error_msg: String = null) = This asserts whether or not the input `bool` is true and throws an error with the `error_msg` if it's false
+- #### assert_strict_equal(item1: any, item2: any, error_msg: String = null) = This asserts whether or not the 2 items specified are strictly equal and throws an error with the `error_msg` if not
+- #### assert_deep_equal(item1: any, item2: any, error_msg: String = null) = This asserts whether or not the 2 items specified are equal in value (aka deeply equal) and throws an error with `error_msg` if not (Note: this function doesn't accept recursive items aka items that contain references that loop)
+- #### deep_equal(item1: any, item2: any) = This returns whether or not the 2 items specified are equal in value (aka deeply equal)
+- #### generate_indentation(level: Integer, indentation_char: String = "  ") = This generates indentation by repeating `indentation_char` for `level` many times
+
+@ Unit Test
+# Unit Test
+
+Here's a unit test for the unit tester using itself (feel free to edit and mess around with it)
+
+<button id="exec-button"></button>
+<div id="editor" style="height: 50em">Loading the Unit Test...</div>
+
+Console (the results can be seen in the Inspect Element console as well): 
+<div id="fake-console"></div>
