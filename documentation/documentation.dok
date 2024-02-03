@@ -141,5 +141,5 @@ Here's a unit test for the unit tester using itself (feel free to edit and mess 
 <button id="exec-button"></button>
 <div id="editor" style="height: 50em">Loading the Unit Test...</div>
 
-Console (the results can be seen in the Inspect Element console as well): 
+Console (this is a fake console and to see the full results use the actual Inspect Element console as well): 
 <div id="fake-console"></div>
